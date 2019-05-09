@@ -42,6 +42,16 @@ Vagrant.configure("2") do |config|
       sudo htpasswd -b -c /usr/local/nagios/etc/htpasswd.users nagiosadmin nagiosadmin
       sudo systemctl restart apache2.service
       sudo systemctl start nagios.service
+      echo "****** Installing plugins ******"
+      sudo apt-get install -y autoconf gcc libc6 libmcrypt-dev make libssl-dev wget bc gawk dc build-essential snmp libnet-snmp-perl gettext
+      echo "****** downloading source ******"
+      cd /tmp
+      wget --no-check-certificate -O nagios-plugins.tar.gz https://github.com/nagios-plugins/nagios-plugins/archive/release-2.2.1.tar.gz
+      tar zxf nagios-plugins.tar.gz
+      cd /tmp/nagios-plugins-release-2.2.1/
+      sudo ./tools/setup && sudo ./configure
+      sudo make && sudo make install
+      sudo systemctl restart nagios.service
     SHELL
   end
   #-----------------------------------------------------------
