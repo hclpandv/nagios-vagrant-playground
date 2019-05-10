@@ -55,7 +55,6 @@ Vagrant.configure("2") do |config|
       sudo /bin/cp -rf /vagrant/nagios/nagios.cfg /usr/local/nagios/etc/nagios.cfg
       [ -d /usr/local/nagios/etc/servers ] && sudo mv /usr/local/nagios/etc/servers /usr/local/nagios/etc/servers_bkp
       sudo ln -s /vagrant/nagios/servers /usr/local/nagios/etc/servers
-      sudo /bin/cp -rf /vagrant/nagios/servers /usr/local/nagios/etc/servers
       sudo systemctl restart nagios.service
     SHELL
   end
