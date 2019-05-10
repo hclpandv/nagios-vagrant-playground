@@ -52,6 +52,11 @@ Vagrant.configure("2") do |config|
       sudo ./tools/setup && sudo ./configure
       sudo make && sudo make install
       sudo systemctl restart nagios.service
+      sudo /bin/cp -rf /vagrant/nagios/nagios.cfg /usr/local/nagios/etc/nagios.cfg
+      [ -d /usr/local/nagios/etc/servers ] && sudo mv /usr/local/nagios/etc/servers /usr/local/nagios/etc/servers_bkp
+      sudo ln -s /vagrant/nagios/servers /usr/local/nagios/etc/servers
+      sudo /bin/cp -rf /vagrant/nagios/servers /usr/local/nagios/etc/servers
+      sudo systemctl restart nagios.service
     SHELL
   end
   #-----------------------------------------------------------
@@ -75,6 +80,11 @@ Vagrant.configure("2") do |config|
       apt-get install -y apache2
       sudo mv /var/www/html /var/www/_html
       sudo ln -s /vagrant/web1 /var/www/html
+      echo "****** nagios config ******"
+      sudo apt-get install -y nagios-plugins nagios-nrpe-server
+      sudo /bin/cp -rf /vagrant/web1/nagios-config/nrpe.cfg /etc/nagios/nrpe.cfg
+      sudo systemctl restart nagios-nrpe-server.service
+      sudo systemctl status nagios-nrpe-server.service
     SHELL
   end
   #-----------------------------------------------------------
@@ -98,6 +108,11 @@ Vagrant.configure("2") do |config|
       apt-get install -y apache2
       sudo mv /var/www/html /var/www/_html
       sudo ln -s /vagrant/web2 /var/www/html
+      echo "****** nagios config ******"
+      sudo apt-get install -y nagios-plugins nagios-nrpe-server
+      sudo /bin/cp -rf /vagrant/web2/nagios-config/nrpe.cfg /etc/nagios/nrpe.cfg
+      sudo systemctl restart nagios-nrpe-server.service
+      sudo systemctl status nagios-nrpe-server.service
     SHELL
   end
 
